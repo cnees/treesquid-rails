@@ -1,0 +1,2 @@
+treesquid = angular.module('treesquid',[
+])
