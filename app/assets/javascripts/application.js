@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require angular/angular
+//= require cytoscape/dist/cytoscape
 //= require_tree .

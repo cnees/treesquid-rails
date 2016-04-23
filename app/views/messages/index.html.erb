@@ -1,0 +1,7 @@
+<ul>
+  <% @roots.each do |message| %>
+    <li>
+      <%= link_to message.text, message %>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,8 @@
+<%= @user.email %>
+<ul>
+  <% @messages.each do |message| %>
+    <li>
+      <%= link_to message.text, message %>
+    </li>
+  <% end %>
+</ul>

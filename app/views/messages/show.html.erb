@@ -1,0 +1,19 @@
+<%= content_tag "div", id: "conversation", data: {conversation: @conversation} do %>
+  test
+<% end %>
+<div id="sidebar">
+  <% @roots.each do |root| %>
+    <%= link_to root.text, root %>
+  <% end %>
+</div>
+<div style="position:absolute;left:250px;top:0px;">
+<%= @root.text %>
+<ul>
+  <% @conversation.each do |message| %>
+    <li>
+      <%= link_to message.text, message %>
+    </li>
+  <% end %>
+</ul>
+</div>
+<div id="cy" style="position:absolute;left:200px;top:0px;background:#0f0;width:calc(100% - 200px);height:100%;">asf</div>

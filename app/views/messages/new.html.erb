@@ -1,0 +1,6 @@
+<%= form_for @message, url: {action: "create"} do |f| %>
+  <%= f.text_area :text %>
+  <%= f.text_field :parent_id %>
+  <%= f.text_field :root_id %>
+  <%= f.submit "Post" %>
+<% end %>

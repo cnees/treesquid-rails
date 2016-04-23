@@ -1,0 +1,13 @@
+*{box-sizing: border-box;}
+body {
+  background:#ccc;
+  font-size:14px;
+  font-family: Helvetica, Arial, Sans-serif;
+  color:#333;
+  padding:0px;
+  margin:0px;
+}
+input {
+  font-family:inherit;
+  padding:5px;
+}
