@@ -1,5 +1,4 @@
-<%= content_tag "div", id: "conversation", data: {conversation: @conversation} do %>
-  test
+<%= content_tag "div", id: "conversation", data: {conversation: @conversation, root: @root} do %>
 <% end %>
 <div id="sidebar">
   <% @roots.each do |root| %>

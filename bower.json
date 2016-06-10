@@ -1,0 +1,22 @@
+{
+  "name": "treesquid",
+  "homepage": "https://github.com/cnees/treesquid-rails",
+  "authors": [
+    "Clara Nees <cnees@umich.edu>"
+  ],
+  "description": "Deep communication",
+  "main": "",
+  "license": "(c) Clara Nees 2016, all rights reserved",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "qtip2": "^2.2.1",
+    "cytoscape-panzoom": "^2.4.0"
+  }
+}

@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
     if @message.root
       @root = Message.find(@message.root)
     end
-    @conversation = Message.where('root_id=' + @root.id.to_s + ' OR id=' + @root.id.to_s)
+    @conversation = Message.where(root: @root)
   end
   def create
     @message = Message.create(params.require(:message).permit(:text,:parent_id,:root_id))

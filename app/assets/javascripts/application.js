@@ -15,4 +15,7 @@
 //= require turbolinks
 //= require angular/angular
 //= require cytoscape/dist/cytoscape
+//= require cytoscape-panzoom/cytoscape-panzoom
+//= require qtip2/basic/jquery.qtip
+//= require cytoscape-qtip/cytoscape-qtip
 //= require_tree .
