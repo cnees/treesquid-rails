@@ -7,13 +7,13 @@ class MessagesController < ApplicationController
     @message = Message.find(params[:id])
     @root = @message
     if @message.root
-      @root = Message.find(@message.root)
+      @root = Message.find(@message.root.id)
     end
     @conversation = Message.where(root: @root)
   end
   def create
     @message = Message.create(params.require(:message).permit(:text,:parent_id,:root_id))
-    redirect_to action: :show, id: @message.id
+    render json: @message
   end
   def new
     @message = Message.new

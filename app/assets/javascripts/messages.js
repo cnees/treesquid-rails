@@ -1,54 +1,33 @@
+$(document).ready(ready);
 
-function addNode(data, graph) {
-  graph.push({
-    data: {
-      id: data.id,
-      label: data.text,
-      user: data.user_id,
-      text: data.text,
-    }
-  });
-}
+// Turbolinks skips document.ready(), so execute ready on load
+$(document).on('page:load', ready);
 
-function addEdge(data, graph) {
-  graph.push({
-    data: {
-      id: data.parent_id + '_' + data.id,
-      source: data.parent_id,
-      target: data.id
-    }
-  });
-}
-
-function setQTip(n) {
-  n.qtip({
-    content: [
-    n.data('user'),
-    "<br>",
-      n.data('text').replace(/\r?\n/g, '<br />'),
-      "<br><textarea class='reply-box' data-id='" + n.data("id") + "' placeholder='Reply'></textarea><br><button onclick='eraseText(" + n.data("id") + ")' class='reply-button' id='reply_" + n.data("id") + "'>Reply</button>"
-    ],
-    position: {
-      my: 'top center',
-      at: 'bottom center'
-    },
-    style: {
-      classes: 'qtip-bootstrap',
-      tip: {
-        width: 16,
-        height: 8
-      }
-    },
-  });
-}
-
-var ready = function() {
+function ready() {
   var messages = []
   var conversation = $('#conversation').data('conversation');
   console.log(conversation)
   var root = $('#conversation').data('root');
   console.log(root)
 
+  var cy = buildGraph(root, messages, conversation);
+
+  $("body").on('keypress', '.reply-box', function(e) {
+    if (e.keyCode == 13 && !e.shiftKey) { // Return/enter
+      replyToMessage(e, root, cy);
+      return false; // Cancel event
+    }
+  });
+
+  $("body").on('click', '.reply-button', function(e) {
+    replyToMessage(e, root, cy);
+    return false; // Cancel event
+  });
+};
+
+function buildGraph(root, messages, conversation) {
+  
+  // Add all nodes
   addNode(root, messages)
   for(var i = 0; i < conversation.length; i++) {
     reply = conversation[i]
@@ -56,6 +35,7 @@ var ready = function() {
     addEdge(reply, messages) 
   }
 
+  // Display graph
   var cy = cytoscape({
     container: $('#cy'),
     elements: messages,
@@ -86,8 +66,8 @@ var ready = function() {
       selector: 'edge',
       style: {
         'width': 2,
-        'line-color': '#996633',
-        'target-arrow-color': '#996633',
+        'line-color': '#660022',
+        'target-arrow-color': '#660022',
         'target-arrow-shape': 'triangle-backcurve',
       }
     }],
@@ -110,6 +90,7 @@ var ready = function() {
     pixelRatio: 1
   });
 
+  // Pan/Zoom controls
   var defaults = {
     zoomFactor: 0.05,
     zoomDelay: 45,
@@ -128,15 +109,113 @@ var ready = function() {
     zoomOutIcon: 'fa fa-minus',
     resetIcon: 'fa fa-expand'
   };
-
   cy.panzoom( defaults );
+
+  // Add reply boxes
   cy.nodes().forEach(function(n){
     setQTip(n);
   });
 
-};
+  return cy;
+}
 
-//$(document).ready(ready);
+function addNode(data, graph) {
+  graph.push({
+    data: {
+      id: data.id,
+      label: data.text,
+      user: data.user_id,
+      text: data.text,
+    }
+  });
+}
 
-// Turbolinks skips document.ready(), so execute ready on load
-$(document).on('page:load', ready);
+function addEdge(data, graph) {
+  graph.push({
+    data: {
+      id: data.parent_id + '_' + data.id,
+      source: data.parent_id,
+      target: data.id
+    }
+  });
+}
+
+function setQTip(n) {
+  n.qtip({
+    content: [
+    n.data('user'),
+    "<br>",
+      n.data('text').replace(/\r?\n/g, '<br />'),
+      "<br><textarea class='reply-box' data-id='" + n.data("id") + "' placeholder='Reply'></textarea><br><button class='reply-button' id='reply_" + n.data("id") + "'>Reply</button>"
+    ],
+    position: {
+      my: 'top center',
+      at: 'bottom center'
+    },
+    style: {
+      classes: 'qtip-bootstrap',
+      tip: {
+        width: 16,
+        height: 8
+      }
+    },
+  });
+}
+
+function eraseText(id) {
+  console.log("eraseText(id) not implemented")
+}
+
+function color(id) {
+  return "#00ff00";
+}
+
+var addReply = function(e, data, cy){
+  var n = cy.add({
+    style: {
+      'border-color': color(data.user_id),
+    },
+    group: "nodes",
+    data: {
+      id: data.id,
+      text: data.user + ': ' + data.text,
+      label: data.user + ': ' + data.text,
+    },
+    renderedPosition: {x: e.originalEvent.clientX - $("#cy").offset().left, y: e.originalEvent.clientY - $("#cy").offset().top},
+  });
+  cy.add({ // edge
+    data: {
+      id: data.parent_id + "_" + data.id,
+      source: data.parent_id,
+      target: data.id
+    }
+  });
+  setQTip(n);
+  var view = {
+    zoom: cy.zoom(),
+    pan: cy.pan()
+  };
+  //cy.layout(layoutParams);
+  cy.viewport(view);
+}
+
+
+function replyToMessage(e, root, cy) {
+  var textBox = $(e.target).parent().find("textarea:first");
+  if($.trim( textBox.val() ) == '') {
+    return; // No  message
+  }
+  $("div").qtip("hide");
+  data = {
+    'message': {
+      'text': textBox.val(),
+      'parent_id': textBox.attr("data-id"),
+      'root_id': root.id      
+    }
+  };
+  $.post("/messages", data, function(response){
+    console.log(response);
+    addReply(e, response, cy);
+    textBox.val('');
+  }, 'json');
+}
