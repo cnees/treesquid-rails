@@ -170,7 +170,8 @@ function color(id) {
   return "#00ff00";
 }
 
-var addReply = function(e, data, cy){
+function addReply(e, data, cy){
+  var layoutParams = cy._private.options.layout
   var n = cy.add({
     style: {
       'border-color': color(data.user_id),
@@ -180,8 +181,7 @@ var addReply = function(e, data, cy){
       id: data.id,
       text: data.user + ': ' + data.text,
       label: data.user + ': ' + data.text,
-    },
-    renderedPosition: {x: e.originalEvent.clientX - $("#cy").offset().left, y: e.originalEvent.clientY - $("#cy").offset().top},
+    }
   });
   cy.add({ // edge
     data: {
@@ -195,10 +195,9 @@ var addReply = function(e, data, cy){
     zoom: cy.zoom(),
     pan: cy.pan()
   };
-  //cy.layout(layoutParams);
+  cy.layout(layoutParams);
   cy.viewport(view);
 }
-
 
 function replyToMessage(e, root, cy) {
   var textBox = $(e.target).parent().find("textarea:first");
