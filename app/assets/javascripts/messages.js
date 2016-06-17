@@ -120,12 +120,13 @@ function buildGraph(root, messages, conversation) {
 }
 
 function addNode(data, graph) {
+  console.log(data)
   graph.push({
     data: {
       id: data.id,
-      label: data.text,
-      user: data.user_id,
-      text: data.text,
+      label: data.user + ': ' + data.text,
+      text: data.user + ': ' + data.text,
+      user: data.user_id
     }
   });
 }
