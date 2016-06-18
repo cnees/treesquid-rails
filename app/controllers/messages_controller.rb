@@ -6,13 +6,15 @@ class MessagesController < ApplicationController
     @roots = Message.where(parent: nil)
     @message = Message.find(params[:id])
     @root = @message
+    fields = 'messages.*, users.username'
     if @message.root
-      @root = Message.find(@message.root.id)
+      @root = Message.joins(:user).find(@message.root.id).select(fields)
     end
-    @conversation = Message.where(root: @root)
+    @conversation = Message.joins(:user).where(root: @root).select(fields)
   end
   def create
-    @message = Message.create(params.require(:message).permit(:text,:parent_id,:root_id))
+    params[:message][:user_id] = current_user.id
+    @message = Message.create(params.require(:message).permit(:text,:user_id,:parent_id,:root_id))
     render json: @message
   end
   def new

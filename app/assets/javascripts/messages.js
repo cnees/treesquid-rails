@@ -124,8 +124,8 @@ function addNode(data, graph) {
   graph.push({
     data: {
       id: data.id,
-      label: data.user + ': ' + data.text,
-      text: data.user + ': ' + data.text,
+      label: data.username + ': ' + data.text,
+      text: data.username + ': ' + data.text,
       user: data.user_id
     }
   });
@@ -180,8 +180,8 @@ function addReply(e, data, cy){
     group: "nodes",
     data: {
       id: data.id,
-      text: data.user + ': ' + data.text,
-      label: data.user + ': ' + data.text,
+      text: data.username + ': ' + data.text,
+      label: data.username + ': ' + data.text,
     }
   });
   cy.add({ // edge
