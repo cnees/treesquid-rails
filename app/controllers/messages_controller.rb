@@ -14,8 +14,10 @@ class MessagesController < ApplicationController
   end
   def create
     params[:message][:user_id] = current_user.id
-    @message = Message.create(params.require(:message).permit(:text,:user_id,:parent_id,:root_id))
-    render json: @message
+    @message = Message.includes(:user).create(params.require(:message).permit(:text,:user_id,:parent_id,:root_id))
+    render json: @message.attributes.merge({username: current_user.username})
+
+
   end
   def new
     @message = Message.new
