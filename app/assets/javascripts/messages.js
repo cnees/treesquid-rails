@@ -205,6 +205,7 @@ function replyToMessage(e, root, cy) {
   if($.trim( textBox.val() ) == '') {
     return; // No  message
   }
+  $('body').css('cursor', 'progress');
   $("div").qtip("hide");
   data = {
     'message': {
@@ -214,7 +215,7 @@ function replyToMessage(e, root, cy) {
     }
   };
   $.post("/messages", data, function(response){
-    console.log(response);
+    $('body').css('cursor', 'default');
     addReply(e, response, cy);
     textBox.val('');
   }, 'json');
