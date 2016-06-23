@@ -11,6 +11,7 @@ class MessagesController < ApplicationController
       @root = Message.joins(:user).find(@message.root.id).select(fields)
     end
     @conversation = Message.joins(:user).where(root: @root).select(fields)
+    @users = @conversation.to_a.uniq{|x| x.user_id}
   end
   def create
     params[:message][:user_id] = current_user.id

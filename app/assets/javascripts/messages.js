@@ -6,9 +6,7 @@ $(document).on('page:load', ready);
 function ready() {
   var messages = []
   var conversation = $('#conversation').data('conversation');
-  console.log(conversation)
   var root = $('#conversation').data('root');
-  console.log(root)
 
   var cy = buildGraph(root, messages, conversation);
 
@@ -22,6 +20,12 @@ function ready() {
   $("body").on('click', '.reply-button', function(e) {
     replyToMessage(e, root, cy);
     return false; // Cancel event
+  });
+
+  $("#users li").hover(function(){
+    cy.nodes("[user = " + $(this).attr('data-id') +"]").forEach(function(n){
+      n.toggleClass('foo');
+    });
   });
 };
 
@@ -44,7 +48,8 @@ function buildGraph(root, messages, conversation) {
       style: {
         'border-opacity': 1,
         'border-style': 'solid',
-        'border-width': 6,
+        'border-width': 3,
+        'border-color': '#5E1C1D',
         'width': 'label',
         'height': 'label',
         'shape': 'roundrectangle',
@@ -60,15 +65,22 @@ function buildGraph(root, messages, conversation) {
         'text-wrap': 'wrap',
         'text-max-width': '120px',
         'color': '#000',
-      }
+      },
     },
     {
       selector: 'edge',
       style: {
         'width': 2,
-        'line-color': '#660022',
-        'target-arrow-color': '#660022',
+        'line-color': '#B25D04',
+        'target-arrow-color': '#B25D04',
         'target-arrow-shape': 'triangle-backcurve',
+      }
+    },
+    {
+      selector: '.foo',
+      style: {
+        'color': '#00FF00',
+        'border-color': '#00ff00',
       }
     }],
     layout: {
@@ -120,7 +132,6 @@ function buildGraph(root, messages, conversation) {
 }
 
 function addNode(data, graph) {
-  console.log(data)
   graph.push({
     data: {
       id: data.id,
@@ -175,7 +186,7 @@ function addReply(e, data, cy){
   var layoutParams = cy._private.options.layout
   var n = cy.add({
     style: {
-      'border-color': color(data.user_id),
+      'border-color': '#5E1C1D',
     },
     group: "nodes",
     data: {

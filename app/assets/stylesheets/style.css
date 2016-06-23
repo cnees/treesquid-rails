@@ -1,6 +1,6 @@
 *{box-sizing: border-box;}
 body {
-  background:#ccc;
+  background:#DA4300;
   font-size:14px;
   font-family: Helvetica, Arial, Sans-serif;
   color:#333;
@@ -10,4 +10,32 @@ body {
 input {
   font-family:inherit;
   padding:5px;
+}
+
+#cy, #cy canvas {
+  border-radius: 30px;
+}
+
+#cy {
+  background:#EFEFEF;
+  border:3px solid #5E1C1D;
+  box-shadow: 0 0 15px 0 #5E1C1D;
+}
+#users {
+  margin:0px;
+  padding:0px;
+}
+
+#users li {
+  display:block;
+  background:#FFF;
+  border-radius:8 px;
+  padding:8px;
+  text-align:center;
+  vertical-align: middle;
+  line-height:100%;
+  margin:10px;
+  width:calc(100% - 20px);
+  list-style-position:outside;
+  border:3px solid #5E1C1D;
 }
