@@ -1,15 +1,8 @@
 <%= content_tag "div", id: "conversation", data: {conversation: @conversation, root: @root} do %>
 <% end %>
-<!--
-<div id="sidebar">
-  <% @roots.each do |root| %>
-    <%= link_to root.text, root %>
-  <% end %>
-</div>
--->
 
 <div id="cy" style="position:absolute;left:10px;top:10px;width:calc(100% - 140px);height:calc(100% - 20px);"></div>
-<div style="height:100%;position:absolute;top:0px;right:0px;width:120px;border-left:3px solid #5E1C1D;background:#EFEFEF;">
+<div id="right-sidebar" style="height:100%;position:absolute;top:0px;right:0px;width:120px;border-left:3px solid #5E1C1D;background:#EFEFEF;">
   <ul id="users">
     <% @users.each do |user| %>
       <li data-id="<%= user.user_id %>"><%= user.username %></li>

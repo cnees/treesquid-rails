@@ -19,17 +19,40 @@ input {
 #cy {
   background:#EFEFEF;
   border:3px solid #5E1C1D;
+  position:absolute;
+  left:10px;
+  top:10px;
+  width:calc(100% - 140px);
+  height:calc(100% - 20px);
+}
+
+#cy, #right-sidebar {
   box-shadow: 0 0 15px 0 #5E1C1D;
 }
+
+#right-sidebar {
+  height:100%;
+  position:absolute;
+  top:0px;
+  right:0px;
+  width:120px;
+  border-left:3px solid #5E1C1D;
+  background:#EFEFEF;
+}
+
 #users {
   margin:0px;
   padding:0px;
 }
 
+.highlight-border {
+  border-color:#A1D028!important;
+}
+
 #users li {
   display:block;
   background:#FFF;
-  border-radius:8 px;
+  border-radius:8px;
   padding:8px;
   text-align:center;
   vertical-align: middle;

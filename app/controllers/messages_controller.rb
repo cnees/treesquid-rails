@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     @root = @message
     fields = 'messages.*, users.username'
     if @message.root
-      @root = Message.joins(:user).find(@message.root.id).select(fields)
+      @root = Message.joins(:user).select(fields).find(@message.root.id)
     end
     @conversation = Message.joins(:user).where(root: @root).select(fields)
     @users = @conversation.to_a.uniq{|x| x.user_id}

@@ -23,6 +23,7 @@ function ready() {
   });
 
   $("#users li").hover(function(){
+    $(this).toggleClass('highlight-border');
     cy.nodes("[user = " + $(this).attr('data-id') +"]").forEach(function(n){
       n.toggleClass('foo');
     });
@@ -79,8 +80,8 @@ function buildGraph(root, messages, conversation) {
     {
       selector: '.foo',
       style: {
-        'color': '#00FF00',
-        'border-color': '#00ff00',
+        'color': '#A1D028',
+        'border-color': '#A1D028',
       }
     }],
     layout: {
