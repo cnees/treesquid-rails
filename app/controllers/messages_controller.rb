@@ -4,12 +4,11 @@ class MessagesController < ApplicationController
   end
   def show
     @roots = Message.where(parent: nil)
+
     @message = Message.find(params[:id])
-    @root = @message
     fields = 'messages.*, users.username'
-    if @message.root
-      @root = Message.joins(:user).select(fields).find(@message.root.id)
-    end
+    @message.root ||= @message
+    @root = Message.joins(:user).select(fields).find(@message.root.id)
     @conversation = Message.joins(:user).where(root: @root).select(fields)
     @users = @conversation.to_a.uniq{|x| x.user_id}
   end

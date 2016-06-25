@@ -32,6 +32,7 @@ input {
 
 #right-sidebar {
   height:100%;
+  overflow-y: auto;
   position:absolute;
   top:0px;
   right:0px;
@@ -40,16 +41,15 @@ input {
   background:#EFEFEF;
 }
 
-#users {
+#users, #roots {
   margin:0px;
   padding:0px;
 }
 
-.highlight-border {
-  border-color:#A1D028!important;
-}
+.click-border { border-color: #B25D04!important; }
+.hover-border { border-color: #A1D028!important; }
 
-#users li {
+#right-sidebar li {
   display:block;
   background:#FFF;
   border-radius:8px;

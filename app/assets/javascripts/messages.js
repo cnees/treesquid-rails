@@ -23,9 +23,16 @@ function ready() {
   });
 
   $("#users li").hover(function(){
-    $(this).toggleClass('highlight-border');
+    $(this).toggleClass('hover-border');
     cy.nodes("[user = " + $(this).attr('data-id') +"]").forEach(function(n){
-      n.toggleClass('foo');
+      n.toggleClass('hover-border');
+    });
+  });
+
+  $("#users li").click(function(){
+    $(this).toggleClass('click-border');
+    cy.nodes("[user = " + $(this).attr('data-id') +"]").forEach(function(n){
+      n.toggleClass('click-border');
     });
   });
 };
@@ -78,10 +85,16 @@ function buildGraph(root, messages, conversation) {
       }
     },
     {
-      selector: '.foo',
+      selector: '.hover-border',
       style: {
         'color': '#A1D028',
         'border-color': '#A1D028',
+      }
+    },
+    {
+      selector: '.click-border',
+      style: {
+        'border-color': '#B25D04',
       }
     }],
     layout: {
@@ -133,6 +146,7 @@ function buildGraph(root, messages, conversation) {
 }
 
 function addNode(data, graph) {
+  console.log(data);
   graph.push({
     data: {
       id: data.id,
