@@ -62,3 +62,16 @@ input {
   list-style-position:outside;
   border:3px solid #5E1C1D;
 }
+
+#add-root-form {
+  padding:0px;
+  padding-top:5px;
+}
+
+#add-root-text {
+  height:75px;
+}
+
+#add-root-form input, #add-root-form textarea {
+  width:100%;
+}

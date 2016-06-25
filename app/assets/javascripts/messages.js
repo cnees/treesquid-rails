@@ -4,6 +4,8 @@ $(document).ready(ready);
 $(document).on('page:load', ready);
 
 function ready() {
+  $("#add-root-form").dialog({minHeight: 'auto', display:'none'});
+  $("#add-root-form").parent().hide();
   var messages = []
   var conversation = $('#conversation').data('conversation');
   var root = $('#conversation').data('root');
@@ -20,6 +22,11 @@ function ready() {
   $("body").on('click', '.reply-button', function(e) {
     replyToMessage(e, root, cy);
     return false; // Cancel event
+  });
+
+  $("#add-root").click(function(e) {
+    $("#add-root-form").parent().toggle();
+    $("#add-root-text").focus();
   });
 
   $("#users li").hover(function(){

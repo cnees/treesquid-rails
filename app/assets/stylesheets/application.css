@@ -10,6 +10,7 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require jquery-ui/dialog
  *= require qtip2/basic/jquery.qtip
  *= require_tree .
  *= require_self
@@ -18,7 +19,7 @@
 /*
 $darkmagenta: #5E1C1D;
 $orage: #DA4300
-$pollen: #B25D04;
+$pollen: #1;
 $green: #305011;
 $brightgreen: #A1D028;
 */

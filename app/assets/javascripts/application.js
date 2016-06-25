@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui/dialog
 //= require jquery_ujs
 //= require turbolinks
 //= require angular/angular
