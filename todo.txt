@@ -1,0 +1,19 @@
+TO DO
+
+Create demo conversation for new users
+
+Send new users to demo conversation
+
+User profiles
+
+Avatars
+
+Access control
+  Public conversations
+  Link-only conversations
+  Invite only conversations
+
+Feed
+
+
+hide new conversation form as message view renders

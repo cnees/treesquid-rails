@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'messages', 'data-turbolinks-track' => true %>
 <%= content_tag "div", id: "conversation", data: {conversation: @conversation, root: @root} do %>
 <% end %>
 
@@ -7,7 +8,7 @@
   <ul id="roots">
     <a href="#"><li id="add-root">+</li></a>
     <% @roots.each do |root| %>
-      <a href="/messages/<%= root.id %>"><li><%= root.text %></li></a>
+      <a href="/messages/<%= root.id %>"><li><%= sanitize(truncate(root.text, length: 9, separator: ' ')) %></li></a>
     <% end %>
   </ul>
   <br> 
