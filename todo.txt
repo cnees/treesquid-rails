@@ -11,7 +11,7 @@ Avatars
 Access control
   Public conversations
   Link-only conversations
-  Invite only conversations
+  Invite only coynversations
 
 Feed
 

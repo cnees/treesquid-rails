@@ -9,18 +9,27 @@ function ready() {
   var messages = []
   var conversation = $('#conversation').data('conversation');
   var root = $('#conversation').data('root');
-
   var cy = buildGraph(root, messages, conversation);
+
+  var dispatcher = new WebSocketRails('localhost:3000/websocket');
+
+  dispatcher.on_open = function(data) {
+    console.log('Connection has been established: ', data);
+  };
+
+  dispatcher.bind('event_name', function(data) {
+    console.log(data.message); // would output 'this is a message'
+  });
 
   $("body").on('keypress', '.reply-box', function(e) {
     if (e.keyCode == 13 && !e.shiftKey) { // Return/enter
-      replyToMessage(e, root, cy);
+      replyToMessage(e, root, cy, dispatcher);
       return false; // Cancel event
     }
   });
 
   $("body").on('click', '.reply-button', function(e) {
-    replyToMessage(e, root, cy);
+    replyToMessage(e, root, cy, dispatcher);
     return false; // Cancel event
   });
 
@@ -232,7 +241,7 @@ function addReply(e, data, cy){
   cy.viewport(view);
 }
 
-function replyToMessage(e, root, cy) {
+function replyToMessage(e, root, cy, dispatcher) {
   var textBox = $(e.target).parent().find("textarea:first");
   if($.trim( textBox.val() ) == '') {
     return; // No  message
@@ -246,9 +255,16 @@ function replyToMessage(e, root, cy) {
       'root_id': root.id      
     }
   };
-  $.post("/messages", data, function(response){
+
+  var pass = function(response) {
     $('body').css('cursor', 'default');
     addReply(e, response, cy);
     textBox.val('');
-  }, 'json');
+  };
+
+  var fail = function(data) {console.log("FAILURE");console.log(data)};
+  dispatcher.trigger("create_message", data, pass, fail);
+  /*$.post("/messages", data, function(response){
+
+  }, 'json');*/
 }

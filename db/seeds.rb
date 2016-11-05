@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+demo_root = Message.create()
+
+
+# id: integer, text: string, user_id: integer, parent_id: integer, root_id: integer, created_at: datetime, updated_at: datetime

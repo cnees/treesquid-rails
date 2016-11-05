@@ -20,3 +20,4 @@
 //= require qtip2/basic/jquery.qtip
 //= require cytoscape-qtip/cytoscape-qtip
 //= require_tree ./global
+//= require websocket_rails/main

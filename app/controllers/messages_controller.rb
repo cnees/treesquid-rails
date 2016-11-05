@@ -1,7 +1,9 @@
 class MessagesController < ApplicationController
+  
   def index
     @roots = Message.where(parent: nil)
   end
+
   def show
     @roots = Message.where(parent: nil)
 
@@ -13,9 +15,11 @@ class MessagesController < ApplicationController
     # To do: Fix @users to include the username from the root node
     @users = @conversation.to_a.uniq{|x| x.user_id}
   end
+
   def create
+    puts "CREATING MESSAGE!!!!!"
     params[:message][:user_id] = current_user.id
-    @message = Message.includes(:user).create!(params.require(:message).permit(:text,:user_id,:parent_id,:root_id))
+    @message = Message.includes(:user).create!(message_params)
     
     if @message.root
       render json: @message.attributes.merge({username: current_user.username})
@@ -23,7 +27,13 @@ class MessagesController < ApplicationController
       redirect_to @message
     end
   end
+
   def new
     @message = Message.new
   end
+
+  def message_params
+    params.require(:message).permit(:text,:user_id,:parent_id,:root_id)
+  end
+
 end

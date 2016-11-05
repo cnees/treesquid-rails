@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def after_sign_in_path_for(resource_or_scope)
-   'messages/1'
+    message_path(Message.first)
   end
 
   def configure_permitted_parameters

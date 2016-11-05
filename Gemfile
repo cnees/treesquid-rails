@@ -9,6 +9,10 @@ gem 'devise'
 # Authorization
 gem 'cancan'
 
+# Real-time updates
+gem 'faye-websocket', '0.10.0'
+gem 'websocket-rails'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use postgresql as the database for Active Record
