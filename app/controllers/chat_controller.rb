@@ -2,15 +2,16 @@ class ChatController < WebsocketRails::BaseController
 
   def create_message
     m = Message.new(message['message'])
-    
+    m.user = current_user
     if m.save!
-      trigger_success(m)
-      new_message = {:message => 'this is a message!!!!'}
-      broadcast_message :event_name, new_message
-    else
-      trigger_failure(m)
+      new_message = {
+        id: m.id,
+        username: m.user.present? ? m.user.username : "No username",
+        text: m.text,
+        parent_id: m.parent_id,
+      }
+      broadcast_message :add_reply, new_message
     end
-
   end
 
-end
+end 

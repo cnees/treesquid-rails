@@ -1,6 +1,6 @@
 var Graph = (function() {
   
-  var setQTip = function(n) {
+  function setQTip(n) {
     n.qtip({
       content: [
       n.data('user'),
@@ -20,9 +20,11 @@ var Graph = (function() {
         }
       },
     });
-  };
+  }
 
-  var addReply = function(e, data, cy){
+  // message needs id, username, text, and parent_id attributes
+  function addReply(message, cy){
+    $('body').css('cursor', 'default');
     var layoutParams = cy._private.options.layout
     var n = cy.add({
       style: {
@@ -30,16 +32,16 @@ var Graph = (function() {
       },
       group: "nodes",
       data: {
-        id: data.id,
-        text: data.username + ': ' + data.text,
-        label: data.username + ': ' + data.text,
+        id: message.id,
+        text: message.username + ': ' + message.text,
+        label: message.username + ': ' + message.text,
       }
     });
     cy.add({ // edge
       data: {
-        id: data.parent_id + "_" + data.id,
-        source: data.parent_id,
-        target: data.id
+        id: message.parent_id + "_" + message.id,
+        source: message.parent_id,
+        target: message.id
       }
     });
     setQTip(n);
@@ -49,37 +51,32 @@ var Graph = (function() {
     };
     cy.layout(layoutParams);
     cy.viewport(view);
-  };
+  }
+
+  function replyToMessage(e, root, cy, dispatcher) {
+    var textBox = $(e.target).parent().find("textarea:first");
+    if($.trim( textBox.val() ) == '') {
+      return; // No  message
+    }
+    $('body').css('cursor', 'progress');
+    $("div").qtip("hide");
+    data = {
+      'message': {
+        'text': textBox.val(),
+        'parent_id': textBox.attr("data-id"),
+        'root_id': root.id
+      }
+    };
+
+    dispatcher.trigger("create_message", data);
+    textBox.val('');
+  }
 
   return {
 
-    replyToMessage: function(e, root, cy, dispatcher) {
-      var textBox = $(e.target).parent().find("textarea:first");
-      if($.trim( textBox.val() ) == '') {
-        return; // No  message
-      }
-      $('body').css('cursor', 'progress');
-      $("div").qtip("hide");
-      data = {
-        'message': {
-          'text': textBox.val(),
-          'parent_id': textBox.attr("data-id"),
-          'root_id': root.id      
-        }
-      };
+    addReply: addReply,
 
-      var pass = function(response) {
-        $('body').css('cursor', 'default');
-        addReply(e, response, cy);
-        textBox.val('');
-      };
-
-      var fail = function(data) {console.log("FAILURE");console.log(data)};
-      dispatcher.trigger("create_message", data, pass, fail);
-      /*$.post("/messages", data, function(response){
-
-      }, 'json');*/
-    },
+    replyToMessage: replyToMessage,
 
     addNode: function(data, graph) {
       graph.push({

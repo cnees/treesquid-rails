@@ -14,8 +14,9 @@ function ready() {
   var cy = Graph.build(container, root, messages, conversation);
   var dispatcher = new WebSocketRails('localhost:3000/websocket');
 
-  dispatcher.bind('event_name', function(data) {
-    console.log(data.message); // would output 'this is a message'
+  dispatcher.bind('add_reply', function(data) {
+    console.log(data);
+    Graph.addReply(data, cy);
   });
 
   // Submit reply
