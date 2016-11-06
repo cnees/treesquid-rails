@@ -21,7 +21,7 @@
 
 </div>
 
-<%= form_for @message, method: :post, url: {action: "create"}, html: {class: "display-none", id: "add-root-form"} do |f| %>
+<%= form_for @message, method: :post, url: {action: "create"}, html: {id: "add-root-form"} do |f| %>
   <%= f.text_area :text, id: "add-root-text", value: "", placeholder: "Enter your message" %>
   <%= f.submit "Post Topic" %>
 <% end %>
