@@ -5,15 +5,18 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @roots = Message.where(parent: nil)
-
-    @message = Message.find(params[:id])
+    @roots = current_user.messages.includes(:user).where(parent: nil)
+    @message = current_user.messages.includes(:user).find(params[:id])
     fields = 'messages.*, users.username'
     @message.root ||= @message
     @root = Message.joins(:user).select(fields).find(@message.root.id)
-    @conversation = Message.joins(:user).where(root: @root).select(fields)
-    # To do: Fix @users to include the username from the root node
-    @users = @conversation.to_a.uniq{|x| x.user_id}
+    @conversation = Message.includes(:user).where(root: @root)
+    @users = Message.select('messages.user_id, users.username').
+                     joins(:user).
+                     where(root: @root).
+                     group('messages.user_id, users.username')
+    @root = @root.as_json(include: :user)
+    @conversation = @conversation.as_json(include: :user)
   end
 
   def create
