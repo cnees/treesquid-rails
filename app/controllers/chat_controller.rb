@@ -6,7 +6,7 @@ class ChatController < WebsocketRails::BaseController
     if m.save!
       new_message = {
         id: m.id,
-        username: m.user.present? ? m.user.username : "No username",
+        user: {username: m.user.username},
         text: m.text,
         parent_id: m.parent_id,
       }

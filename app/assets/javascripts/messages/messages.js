@@ -15,7 +15,6 @@ function ready() {
   var dispatcher = new WebSocketRails('localhost:3000/websocket');
 
   dispatcher.bind('add_reply', function(data) {
-    console.log(data);
     Graph.addReply(data, cy);
   });
 

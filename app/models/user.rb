@@ -7,5 +7,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :rememberable,
          :trackable, :validatable
   has_many :messages
+  has_many :conversation_memberships
+  has_many :conversations, through: :conversation_memberships, source: :message
   validates_uniqueness_of :username
 end

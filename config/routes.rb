@@ -11,5 +11,6 @@ Rails.application.routes.draw do
 
   resources :users
   resources :messages
-  
+  resources :conversation_memberships
+
 end

@@ -33,8 +33,8 @@ var Graph = (function() {
       group: "nodes",
       data: {
         id: message.id,
-        text: message.username + ': ' + message.text,
-        label: message.username + ': ' + message.text,
+        text: message.user.username + ': ' + message.text,
+        label: message.user.username + ': ' + message.text,
       }
     });
     cy.add({ // edge
@@ -82,8 +82,8 @@ var Graph = (function() {
       graph.push({
         data: {
           id: data.id,
-          label: data.username + ': ' + data.text,
-          text: data.username + ': ' + data.text,
+          label: data.user.username + ': ' + data.text,
+          text: data.user.username + ': ' + data.text,
           user: data.user_id
         }
       });

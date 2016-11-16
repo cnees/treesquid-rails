@@ -1,15 +1,18 @@
 class MessagesController < ApplicationController
   
   def index
-    @roots = Message.where(parent: nil)
+    @roots = roots
   end
 
   def show
-    @roots = current_user.messages.includes(:user).where(parent: nil)
+    created_roots = roots
+    joined_roots = current_user.conversations.includes(:user)
+    @roots = created_roots.concat(joined_roots)
+
     @message = current_user.messages.includes(:user).find(params[:id])
-    fields = 'messages.*, users.username'
     @message.root ||= @message
-    @root = Message.joins(:user).select(fields).find(@message.root.id)
+
+    @root = Message.joins(:user).find(@message.root.id)
     @conversation = Message.includes(:user).where(root: @root)
     @users = Message.select('messages.user_id, users.username').
                      joins(:user).
@@ -20,7 +23,6 @@ class MessagesController < ApplicationController
   end
 
   def create
-    puts "CREATING MESSAGE!!!!!"
     params[:message][:user_id] = current_user.id
     @message = Message.includes(:user).create!(message_params)
     
@@ -39,4 +41,7 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:text,:user_id,:parent_id,:root_id)
   end
 
+  def roots
+    current_user.messages.includes(:user).where(parent: nil)
+  end
 end
